@@ -4,6 +4,8 @@ import { navItems, personalInfo } from "@/data/resume";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { Sun, Moon } from "lucide-react";
 
 interface NavbarProps {
   className?: string;
@@ -27,6 +29,12 @@ export function Navbar({ className }: NavbarProps) {
   const [activeSection, setActiveSection] = useState("hero");
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,6 +79,10 @@ export function Navbar({ className }: NavbarProps) {
     };
   }, [mobileMenuOpen, closeMobileMenu]);
 
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   return (
     <>
       <motion.header
@@ -94,32 +106,66 @@ export function Navbar({ className }: NavbarProps) {
             <span className="text-foreground">.</span>
           </motion.a>
 
-          <ul className="hidden sm:flex items-center gap-1">
-            {navItems.map((item) => (
-              <li key={item.id}>
-                <button
-                  onClick={() => handleNavClick(item.id)}
-                  className={cn(
-                    "relative px-3 py-1.5 text-xs font-medium tracking-wide uppercase transition-colors duration-200",
-                    activeSection === item.id ? "text-accent neon-text-glow" : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  <span className="relative z-10">{item.label}</span>
-                  {activeSection === item.id && (
-                    <motion.span layoutId="activeSection" className="absolute inset-0 -z-10 border border-accent/40 bg-accent/5" transition={{ duration: 0.2 }} />
-                  )}
-                </button>
-              </li>
-            ))}
-          </ul>
+          <div className="flex items-center gap-2">
+            <ul className="hidden sm:flex items-center gap-1">
+              {navItems.map((item) => (
+                <li key={item.id}>
+                  <button
+                    onClick={() => handleNavClick(item.id)}
+                    className={cn(
+                      "relative px-3 py-1.5 text-xs font-medium tracking-wide uppercase transition-colors duration-200",
+                      activeSection === item.id ? "text-accent neon-text-glow" : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    <span className="relative z-10">{item.label}</span>
+                    {activeSection === item.id && (
+                      <motion.span layoutId="activeSection" className="absolute inset-0 -z-10 border border-accent/40 bg-accent/5" transition={{ duration: 0.2 }} />
+                    )}
+                  </button>
+                </li>
+              ))}
+            </ul>
 
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="sm:hidden p-2 text-accent hover:bg-accent/10 transition-colors"
-            aria-label="Toggle menu"
-          >
-            <MenuIcon open={mobileMenuOpen} />
-          </button>
+            {mounted && (
+              <button
+                onClick={toggleTheme}
+                className="p-2 text-muted-foreground hover:text-accent hover:bg-accent/10 transition-colors rounded-none"
+                aria-label="Toggle theme"
+              >
+                <AnimatePresence mode="wait">
+                  {theme === "dark" ? (
+                    <motion.div
+                      key="sun"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Sun size={18} />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="moon"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Moon size={18} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </button>
+            )}
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="sm:hidden p-2 text-accent hover:bg-accent/10 transition-colors"
+              aria-label="Toggle menu"
+            >
+              <MenuIcon open={mobileMenuOpen} />
+            </button>
+          </div>
         </nav>
       </motion.header>
 
@@ -187,12 +233,17 @@ export function Navbar({ className }: NavbarProps) {
                   >
                     <GithubIcon className="w-4 h-4" />
                   </a>
-                  <a
-                    href={`mailto:${personalInfo.email}`}
-                    className="px-4 py-2 text-sm bg-accent text-accent-foreground hover:bg-accent/90 transition-colors"
-                  >
-                    Get in Touch
-                  </a>
+                  {mounted && (
+                    <button
+                      onClick={toggleTheme}
+                      className="w-10 h-10 flex items-center justify-center border border-border/60 hover:border-accent/40 hover:bg-accent/10 transition-colors text-muted-foreground hover:text-accent"
+                      aria-label="Toggle theme"
+                    >
+                      <AnimatePresence mode="wait">
+                        {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+                      </AnimatePresence>
+                    </button>
+                  )}
                 </motion.div>
               </div>
             </motion.div>

@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/components/providers";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -23,8 +24,8 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Maruf Hosen | Web Developer",
-  description: "Dynamic and detail-oriented Web Developer specializing in modern JavaScript ecosystems",
+  title: "Maruf Hosen | Software Engineer",
+  description: "Dynamic and detail-oriented Software Engineer specializing in modern JavaScript ecosystems",
 };
 
 export default function RootLayout({
@@ -33,11 +34,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body className={cn("min-h-full flex flex-col antialiased", geistSans.variable, geistMono.variable, jetbrainsMono.variable, playfairDisplay.variable)}>
-        <div className="grain-overlay" aria-hidden="true" />
-        <div className="vignette" aria-hidden="true" />
-        <TooltipProvider>{children}</TooltipProvider>
+        <ThemeProvider>
+          <div className="grain-overlay" aria-hidden="true" />
+          <div className="vignette" aria-hidden="true" />
+          <TooltipProvider>{children}</TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

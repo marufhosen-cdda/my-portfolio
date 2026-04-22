@@ -1,4 +1,4 @@
-import { Navbar, Hero, About, Experience, Skills, Projects, Education, Contact, Footer } from "@/components/portfolio";
+import { About, Contact, Education, Experience, Footer, Hero, Navbar, Projects, Skills } from "@/components/portfolio";
 
 export default function Home() {
   return (

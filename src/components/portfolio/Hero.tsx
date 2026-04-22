@@ -29,7 +29,7 @@ export function Hero() {
       <motion.div variants={containerVariants} initial="hidden" animate="visible" className="relative z-10 text-center px-6 max-w-3xl mx-auto">
         <motion.div variants={itemVariants} className="mb-4">
           <div className="w-32 h-32 mx-auto rounded-full border border-accent/30 bg-card/50 flex items-center justify-center neon-glow overflow-hidden">
-            <Image src={personalInfo.image} alt="Profile" width={96} height={96} className="rounded-full object-cover" />
+            <Image src={personalInfo.image} alt="Profile" width={96} height={96} className="rounded-full object-cover" priority />
           </div>
         </motion.div>
 
