@@ -1,26 +1,190 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-serif);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: #050807;
+  --foreground: #e6f1ec;
+  --card: #0f1f1c;
+  --card-foreground: #e6f1ec;
+  --popover: #0f1f1c;
+  --popover-foreground: #e6f1ec;
+  --primary: #00ff9c;
+  --primary-foreground: #050807;
+  --secondary: #0a1412;
+  --secondary-foreground: #e6f1ec;
+  --muted: #0a1412;
+  --muted-foreground: #9fb3aa;
+  --accent: #00ff9c;
+  --accent-foreground: #050807;
+  --destructive: #704040;
+  --border: #12332b;
+  --input: #12332b;
+  --ring: #00ff9c;
+  --chart-1: #00ff9c;
+  --chart-2: #00cc7a;
+  --chart-3: #12332b;
+  --chart-4: #0a1412;
+  --chart-5: #0f1f1c;
+  --sidebar: #0a1412;
+  --sidebar-foreground: #e6f1ec;
+  --sidebar-primary: #00ff9c;
+  --sidebar-primary-foreground: #050807;
+  --sidebar-accent: #12332b;
+  --sidebar-accent-foreground: #e6f1ec;
+  --sidebar-border: #12332b;
+  --sidebar-ring: #00ff9c;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-size: 15px;
+  }
+  html {
+    scroll-behavior: smooth;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+.grain-overlay {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background: transparent url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E") repeat;
+  pointer-events: none;
+  z-index: 9999;
+  animation: grain 8s steps(10) infinite;
+  opacity: 0.25;
+}
+
+.vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.35) 100%);
+}
+
+.section-fade {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.section-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.neon-glow {
+  box-shadow: 0 0 12px rgba(0, 255, 156, 0.15);
+  transition: box-shadow 0.2s ease;
+}
+
+.neon-glow:hover {
+  box-shadow: 0 0 20px rgba(0, 255, 156, 0.25);
+}
+
+.neon-text-glow {
+  text-shadow: 0 0 8px rgba(0, 255, 156, 0.4);
+  transition: text-shadow 0.2s ease;
+}
+
+.neon-text-glow:hover {
+  text-shadow: 0 0 12px rgba(0, 255, 156, 0.6);
+}
+
+.neon-border-glow {
+  border-color: rgba(0, 255, 156, 0.4);
+  box-shadow: 0 0 8px rgba(0, 255, 156, 0.1), inset 0 0 8px rgba(0, 255, 156, 0.05);
+}
+
+.mobile-menu-overlay {
+  background: rgba(5, 8, 7, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+/* Increased text scale */
+@layer utilities {
+  .text-xs { font-size: 0.75rem; line-height: 1rem; }
+  .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+  .text-base { font-size: 1rem; line-height: 1.5rem; }
+  .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+  .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+  .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+  .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+  .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+  .text-5xl { font-size: 3rem; line-height: 1.1; }
+  .text-6xl { font-size: 3.75rem; line-height: 1; }
+  .text-7xl { font-size: 4.5rem; line-height: 1; }
+  .text-8xl { font-size: 6rem; line-height: 1; }
 }

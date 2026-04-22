@@ -1,0 +1,14 @@
+export { Navbar } from "./Navbar";
+export { Hero } from "./Hero";
+export { About } from "./About";
+export { Experience } from "./Experience";
+export { Skills } from "./Skills";
+export { Projects } from "./Projects";
+export { Education } from "./Education";
+export { Contact } from "./Contact";
+export { Footer } from "./Footer";
+export { CursorGlow } from "./CursorGlow";
+export { Background3D } from "./Background3D";
+export { Background3DDynamic } from "./Background3DDynamic";
+export { ParallaxCard } from "./ParallaxCard";
+export { MagneticButton } from "./MagneticButton";
